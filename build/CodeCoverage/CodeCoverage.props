@@ -1,0 +1,12 @@
+<Project>
+    <PropertyGroup>
+      <CollectCoverage Condition="$(CollectCoverage) == ''">true</CollectCoverage>
+      <DisableCodeCoverage Condition="$(DisableCodeCoverage) == ''">false</DisableCodeCoverage>
+    </PropertyGroup>
+
+    <PropertyGroup Label="CollectCodeCoverageResults" Condition="$(CollectCoverage)">
+      <CoverletOutputFormat>cobertura</CoverletOutputFormat>
+      <CoverletOutput>..\..\TestResults\Coverage\$(MSBuildProjectName).xml</CoverletOutput>
+      <DebugType>pdbonly</DebugType> <!-- Coverlet needs full debug symbols -->
+    </PropertyGroup>
+</Project>

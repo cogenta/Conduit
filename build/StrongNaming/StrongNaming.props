@@ -1,0 +1,6 @@
+<Project>
+    <PropertyGroup>
+      <SignAssembly Condition="$(SignAssembly) == ''">true</SignAssembly>
+      <AssemblyOriginatorKeyFile Condition="$(SignAssembly) == 'true'">$(MSBuildThisFileDirectory)Gfk.snk</AssemblyOriginatorKeyFile>
+    </PropertyGroup>
+</Project>

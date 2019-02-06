@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+    <!-- Set default values -->
+    <IsGithubProject>false</IsGithubProject>
+    <IsADOProject>false</IsADOProject>
+    <IsTfsProject>false</IsTfsProject>
+    <IsBitBucketProject>false</IsBitBucketProject>
+    <IsGitLabProject>false</IsGitLabProject>
+    </PropertyGroup>
+</Project>

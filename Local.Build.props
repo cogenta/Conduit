@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)artifacts/nupkgs</PackageOutputPath>
+    <PublishDir>$(MSBuildThisFileDirectory)artifacts/app</PublishDir>
+    <RepositoryRoot>$(MSBuildThisFileDirectory)</RepositoryRoot>
+    <RepositoryType>git</RepositoryType>
+    <!-- Change these parameters, making sure to leave $(PackageTags) here -->
+    <PackageTags>$(PackageTags) </PackageTags>
+    <PackageProjectUrl></PackageProjectUrl>
+  </PropertyGroup>
+</Project>

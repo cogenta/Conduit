@@ -1,0 +1,5 @@
+<Project>
+  <Import Project="..\Directory.Build.props" Condition="Exists('..\Directory.Build.props')" />
+  <Import Project="build\Gfk.Build.props" Condition="Exists('build\Gfk.Build.props')" />
+  <Import Project=".\Local.Build.props" Condition="Exists('.\Local.Build.props')" />
+</Project>

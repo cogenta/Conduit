@@ -1,0 +1,17 @@
+<Project>
+    <Target Name="BuildFeatureILLinkerPropertyEvaluation" BeforeTargets="EvaluateDynamicProperties">
+      <PropertyGroup>
+        <LinkDuringPublish Condition="$(LinkDuringPublish) == ''">false</LinkDuringPublish>
+      </PropertyGroup>
+
+      <PropertyGroup Condition="$(LinkDuringPublish)">
+        <ShowLinkerSizeComparison Condition="$(ShowLinkerSizeComparison) == ''">true</ShowLinkerSizeComparison>
+      </PropertyGroup>
+    </Target>
+
+    <Target Name="BuildFeatureILLinkerPackageImport" BeforeTargets="AddNugetPackages" Condition="$(IsNetCoreAppAssembly) AND $(LinkDuringPublish)">
+      <ItemGroup>
+        <PackageReference Include="ILLink.Tasks" Version="0.1.5-preview-1841731" PrivateAssets="All" />
+      </ItemGroup>
+    </Target>
+</Project>

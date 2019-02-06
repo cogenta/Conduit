@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup>
+    <Authors>GfK</Authors>
+    <Company>GfK</Company>
+    <Copyright>© $(Company). All rights reserved.</Copyright>
+    <PackageTags>GfK$(PackageTags)</PackageTags>
+    <PackageIconUrl>https://jira.gfk.com/s/ho8alt/75008/4fb357974d72ae33f71f127e3a145aff/_/jira-logo-scaled.png</PackageIconUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <DisablePackageValidation Condition="$(DisablePackageValidation) == ''">false</DisablePackageValidation>
+  </PropertyGroup>
+</Project>

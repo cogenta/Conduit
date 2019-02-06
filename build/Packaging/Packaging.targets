@@ -1,0 +1,14 @@
+<Project>
+  <Target Name="BuildFeatureNuspecValidation" BeforeTargets="GenerateNuSpec" Condition="$(DisablePackageValidation)">
+    <Error Code="BF003" Text="The description tag is missing. Descriptions aid in the discoverability of your NuGet package and is a required property." Condition="$(Description) == ''" />
+    <Warning ContinueOnError="true" Code="BF004" Text="PackageTags are missing. Package tags aid in the discoverability of your NuGet package." Condition="$(PackageTags) == ''" />
+    <Warning ContinueOnError="true" Code="BF005" Text="Documentation file is not being generated. Documentation files provide better user experience. Use the tag: GenerateDocumentationFile=True" Condition="$(GenerateDocumentationFile) != 'true'" />
+    <Warning ContinueOnError="true" Code="BF006" Text="The 'Authors' tag is missing which should be specified." Condition="$(Authors) == ''" />
+    <Warning ContinueOnError="true" Code="BF007" Text="The 'PackageIconUrl' tag is missing. The 'PackageIconUrl' tag helps with the branding of your package." Condition="$(PackageIconUrl) == ''" />
+    <Warning ContinueOnError="true" Code="BF008" Text="The 'PackageProjectUrl' tag is missing. The 'PackageProjectUrl' tag helps with the branding of your package and helps consumers get support." Condition="$(PackageProjectUrl) == ''" />
+    <Warning ContinueOnError="true" Code="BF009" Text="The 'LicenseURL' tag is being depreciated in favour of 'PackageLicenseExpression' or 'PackageLicenseFile'. You may keep this for compatability. For more information see: " Condition="$(LicenseURL) != ''" />
+    <Warning ContinueOnError="true" Code="BF010" Text="The 'PackageLicenseUrl' tag is being depreciated in favour of 'PackageLicenseExpression' or 'PackageLicenseFile'. You may keep this for compatability. For more information see: " Condition="$(PackageLicenseUrl) != ''" />
+    <Warning ContinueOnError="true" Code="BF011" Text="Please specify a license for your package, using one of the following tags: PackageLicenseExpression,PackageLicenseFile" Condition="$(PackageLicenseExpression) == '' AND $(PackageLicenseFile) == ''" />
+    <Warning ContinueOnError="true" Code="BF012" Text="The 'RepositoryUrl' tag is missing. This tag helps users locate your source code and suggest improvements." Condition="$(RepositoryUrl) == '' AND $(EnableSourceLink) != 'true'" />
+  </Target>
+</Project>

@@ -1,0 +1,75 @@
+﻿<Project>
+  <!--
+      A project with <TargetFrameworks>netstandard2.0;net461</TargetFrameworks> will be built three times in a normal build:
+        1. With no specified TargetFramework (the "outer" build). This usually doesn't do much work, just forwards to the inner builds
+        2. With TargetFramework=netstandard2.0
+        3. With TargetFramework=net461
+     
+     One way to get the correct property is to hook onto this extension point provided by NuGet:
+        https://github.com/NuGet/NuGet.Client/blob/8c78fe56c15b78d539d404c43c94238c8b311497/src/NuGet.Core/NuGet.Build.Tasks/NuGet.targets#L151-L159
+  -->
+  <Target Name="EvaluateProperties" BeforeTargets="EvaluateDynamicPropertiesCore">
+    <PropertyGroup Condition="$(TargetFramework) != ''">
+      <IsNetStandardAssembly Condition="$(TargetFramework.StartsWith('netstandard'))">true</IsNetStandardAssembly>
+      <IsNetCoreAppAssembly Condition="$(TargetFramework.StartsWith('netcoreapp'))">true</IsNetCoreAppAssembly>
+      <IsNetFrameworkAssembly Condition="$(TargetFramework.StartsWith('net4'))">true</IsNetFrameworkAssembly>
+      <_InnerBuild>true</_InnerBuild>
+    </PropertyGroup>
+
+    <PropertyGroup>
+      <IsTestAssembly Condition="$(MSBuildProjectName.EndsWith($(TestAssemblySuffix)))">true</IsTestAssembly>
+      <IsBenchmarkAssembly Condition="$(MSBuildProjectName.EndsWith($(BenchmarkAssemblySuffix)))">true</IsBenchmarkAssembly>
+    </PropertyGroup>
+    
+    <PropertyGroup Condition="!$(IsTestAssembly) AND !$(IsBenchmarkAssembly)">
+      <!-- We need this so that we get intellisense docs in published packages -->
+      <GenerateDocumentationFile>true</GenerateDocumentationFile>
+      <!-- Ignore the warning about semver2 -->
+      <NoWarn>$(NoWarn);NU5105</NoWarn>
+      <!-- Standard... -->
+      <TreatWarningsAsErrors Condition="$(OverrideWarningsAsErrorBehavior) == ''">True</TreatWarningsAsErrors>
+      <!-- Standard... -->
+      <Optimize Condition="$(Configuration) == 'Release'">true</Optimize>
+      <!-- Instructs the compiler to use SHA256 instead of SHA1 when adding file hashes to PDBs. Copied from github.com/aspnet/aspnetcore -->
+      <ChecksumAlgorithm>SHA256</ChecksumAlgorithm>
+      <!-- Suppress the message about using a preview version of .NET Core SDK. We are okay with this and don't need the warning. Copied from github.com/aspnet/aspnetcore -->
+      <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+      <!-- Fixes a common error in targets implementing a NoBuild mode. Copied from github.com/aspnet/aspnetcore -->
+      <BuildProjectReferences Condition=" '$(NoBuild)' == 'true' ">false</BuildProjectReferences>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="$(IsTestAssembly)">
+      <!-- This is not set by the xunit template... lol -->
+      <IsTestProject>true</IsTestProject>
+    </PropertyGroup>
+    
+    <PropertyGroup Condition="$(IsNetCoreAppAssembly) AND !$(IsTestAssembly) AND !$(IsBenchmarkAssembly)">
+      <!-- Serverside GC -->
+      <ServerGarbageCollection>true</ServerGarbageCollection>
+    </PropertyGroup>
+  </Target>
+  
+  <!-- Debug Targets -->
+  <Target Name="EvaluateProperties_Debug" AfterTargets="EvaluateProperties" Condition="$(DebugBuildFeatures) == 'true'">
+    <Message Importance="high" Text="Target: EvaluateProperties" />
+    <Message Importance="high" Text="--------------------------------------" />
+    <Message Importance="high" Text="ProjectName: $(ProjectName)" />
+    <Message Importance="high" Text="Version: $(Version)" />
+    <Message Importance="high" Text="PackageVersion: $(PackageVersion)" />
+    <Message Importance="high" Text="TargetFramework: $(TargetFramework)" />
+    <Message Importance="high" Text="TargetFrameworks: $(TargetFrameworks)" />
+    <Message Importance="high" Text="TestAssemblySuffix: $(TestAssemblySuffix)" />
+    <Message Importance="high" Text="BenchmarkAssemblySuffix: $(BenchmarkAssemblySuffix)" />
+    <Message Importance="high" Text="IsTestAssembly: $(IsTestAssembly)" />
+    <Message Importance="high" Text="IsBenchmarkAssembly: $(IsBenchmarkAssembly)" />
+    <Message Importance="high" Text="IsNetStandardAssembly: $(IsNetStandardAssembly)" />
+    <Message Importance="high" Text="IsNetCoreAppAssembly: $(IsNetCoreAppAssembly)" />
+    <Message Importance="high" Text="IsNetFrameworkAssembly: $(IsNetFrameworkAssembly)" />
+    <Message Importance="high" Text="EnableSourceLink: $(EnableSourceLink)" />
+    <Message Importance="high" Text="IsGithubProject: $(IsGithubProject)" />
+    <Message Importance="high" Text="IsADOProject: $(IsADOProject)" />
+    <Message Importance="high" Text="IsTfsProject: $(IsTfsProject)" />
+    <Message Importance="high" Text="IsBitBucketProject: $(IsBitBucketProject)" />
+    <Message Importance="high" Text="IsGitLabProject: $(IsGitLabProject)" />
+  </Target>
+</Project>

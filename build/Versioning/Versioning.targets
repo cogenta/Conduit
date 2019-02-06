@@ -1,0 +1,35 @@
+<Project>
+  <Target Name="BuildFeatureImportVersioning" BeforeTargets="AddNugetPackages" Condition="$(TargetFramework) != '' AND !$(IsTestAssembly) AND !$(IsBenchmarkAssembly) AND $(DisableVersioning) != 'true'">
+    <ItemGroup>
+      <PackageReference Include="Nerdbank.Gitversioning" Version="2.3.38">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+  </Target>
+  <Target Name="SetNuSpecProperties" BeforeTargets="Build" Condition="'$(NuspecFile)' != ''">
+    <PropertyGroup>
+      <!-- Reset 'SourceRevisionId' to default value when not set -->
+      <SourceRevisionId Condition="'$(SourceRevisionId)' == ''">0</SourceRevisionId>
+    </PropertyGroup>
+    <PropertyGroup>
+      <NuspecProperties>
+        id=$(PackageId);
+        title=$(Title);
+        version=$(PackageVersion);
+        summary=$(Summary);
+        description=$(Description);
+        authors=$(Authors.Replace(';',','));
+        copyright=$(Copyright);
+        tags=$(PackageTags.Replace(';',','));
+        repositoryType=$(RepositoryType);
+        repositoryUrl=$(RepositoryUrl);
+        projectUrl=$(PackageProjectUrl);
+        licenseUrl=$(PackageLicenseUrl);
+        packageType=$(PackageType);
+        releaseNotes=$(PackageReleaseNotes);
+        sourceRevisionId=$(SourceRevisionId)
+      </NuspecProperties>
+    </PropertyGroup>
+  </Target>
+</Project>

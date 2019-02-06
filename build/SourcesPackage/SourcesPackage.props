@@ -1,0 +1,24 @@
+﻿<Project>
+  <!-- Properties that we need to set when we are creating the sources package -->
+  <PropertyGroup Condition="$(PackageSources) == 'true'">
+    <PackageId Condition="$(PackageId) == ''">$(MSBuildProjectName)</PackageId>
+    <PackageId>$(PackageId).Sources</PackageId>
+    <Description>Sources package for $(PackageId)</Description>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>contentFiles</ContentTargetFolders>
+    <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <NoWarn>CS8021</NoWarn>
+    <NoBuild>true</NoBuild>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <EnableSourceLink>false</EnableSourceLink>
+    <BFCompilePackagePath Condition="$(BFCompilePackagePath) == ''">$(ContentTargetFolders)\cs\$(TargetFramework)\$(PackageId)\</BFCompilePackagePath>
+    <BFEmbedPackagePath Condition="$(BFEmbedPackagePath) == ''">$(ContentTargetFolders)\any\any\$(PackageId)\</BFEmbedPackagePath>
+  </PropertyGroup>
+
+  <!-- Excluded files by default -->
+  <ItemGroup Condition="$(PackageSources) == 'true'">
+    <ExcludeFromSources Include="AssemblyInfo.cs" />
+  </ItemGroup>
+</Project>
