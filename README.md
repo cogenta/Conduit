@@ -84,10 +84,26 @@ As part of the default pipeline builder, you have access to all of the same stuf
 
 Once this is registered, you can access the pipeline in your code by injecting `IPipeline<T>`/`IAsyncPipeline<T>`.
 
-_**Note**: You can have different default pipelines for your synchronos and asynchronos code paths.__
+_**Note**: You can have different default pipelines for your synchronos and asynchronos code paths._
 
 ### Conditional execution of pipline phases
 
-If you a part of your pipeline that you only occassionally want to run, you can supply a condition to each of the builder overloads which will only invoke the pipeline when the condition is met.
+If you a part of your pipeline that you only occassionally want to run, you can supply a condition to each of the builder overloads which will only invoke the pipeline when the condition is met. For example:
+
+```c#
+.AddDefaultPipeline<int>(builder =>
+{
+    builder.AddPhaseFromExpression(input => input + 1, input => myCondition == true);
+})
+```
+
+or;
+
+```c#
+.AddDefaultAsyncPipeline<int>(builder =>
+{
+    builder.AddPhaseFromExpression(input => input + 1, input => myCondition == true);
+})
+```
 
 For more examples, see how the pipelines are constructed inside of the [samples](samples) folder.
