@@ -103,12 +103,13 @@ namespace Conduit
             return this;
         }
 
-        internal void Build()
+        internal List<Func<IServiceProvider, T, CancellationToken, Task<T>>> Build()
         {
             _services.Configure<AsyncPipelineOptions<T>>(_name, options =>
             {
                 options.Phases = _phases;
             });
+            return _phases;
         }
     }
 }

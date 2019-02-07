@@ -81,12 +81,13 @@ namespace Conduit
             return this;
         }
 
-        internal void Build()
+        internal List<Func<IServiceProvider, T, T>> Build()
         {
             _services.Configure<PipelineOptions<T>>(_name, options =>
             {
                 options.Phases = _phases;
             });
+            return _phases;
         }
     }
 }
