@@ -34,7 +34,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>
         /// Adds a pipeline with the specified name which can be retrieved from IPipelineManger&lt;T&gt;.Get(name)
         /// </summary>
-        /// <typeparam name="T">The that is passed through the pipeline</typeparam>
+        /// <typeparam name="T">The type that is passed through the pipeline</typeparam>
         /// <param name="services">The service collection to bind to</param>
         /// <param name="name">The name of the pipeline</param>
         /// <param name="builderAction">The builder of the pipeline</param>
