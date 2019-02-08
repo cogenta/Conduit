@@ -19,7 +19,7 @@ namespace Conduit
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                name = "_default";
+                name = Constants.DefaultPipeline;
             }
 
             var options = _options.Get(name) ?? throw new Exception("Cant find it");
