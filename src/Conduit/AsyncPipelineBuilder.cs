@@ -16,6 +16,11 @@ namespace Conduit
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
             _name = name ?? throw new ArgumentNullException(nameof(name));
+
+            if (string.IsNullOrWhiteSpace(_name))
+            {
+                throw new ArgumentException("Cannot have a pipeline with an empty name");
+            }
         }
 
         public IAsyncPipelineBuilder<T> AddDefaultPipeline(Func<T, bool> condition = null)
