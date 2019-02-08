@@ -1,0 +1,27 @@
+<Project>
+  <!-- Properties to help identify the type of assembly -->
+  <PropertyGroup>
+    <TestAssemblySuffix Condition="$(TestAssemblySuffix) == ''">Tests</TestAssemblySuffix>
+    <BenchmarkAssemblySuffix Condition="$(BenchmarkAssemblySuffix) == ''">Benchmark</BenchmarkAssemblySuffix>
+    <!-- First set the default values -->
+    <IsTestAssembly>false</IsTestAssembly>
+    <IsBenchmarkAssembly>false</IsBenchmarkAssembly>
+    <IsNetStandardAssembly>false</IsNetStandardAssembly>
+    <IsNetCoreAppAssembly>false</IsNetCoreAppAssembly>
+    <IsNetFrameworkAssembly>false</IsNetFrameworkAssembly>
+  </PropertyGroup>
+
+  <!-- Standardise settings -->
+  <PropertyGroup>
+    <!-- Should be set by default on new csproj's -->
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <!-- Enable tiered compilation: https://blogs.msdn.microsoft.com/dotnet/2018/08/02/tiered-compilation-preview-in-net-core-2-1/ -->
+    <TieredCompilation>true</TieredCompilation>
+    <!-- Use Rosyln's deterministic build: http://blog.paranoidcoding.com/2016/04/05/deterministic-builds-in-roslyn.html -->
+    <Deterministic>true</Deterministic>
+    <!-- Use the latest language version available to us -->
+    <LangVersion>latest</LangVersion>
+    <!-- do not treat the "assembly ... does not have a strong name" warning as an error -->
+    <WarningsNotAsErrors>$(WarningsNotAsErrors) CS8002</WarningsNotAsErrors>
+  </PropertyGroup>
+</Project>

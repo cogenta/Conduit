@@ -1,0 +1,26 @@
+<Project>
+  <Target Name="CodeCoveragePropertyEvaluation" BeforeTargets="EvaluateDynamicProperties" Condition="$(IsTestAssembly) AND $(CollectCoverage)">
+    <ItemGroup Label="ExcludeTestResults">
+      <Compile Remove="TestResults\**" />
+      <EmbeddedResource Remove="TestResults\**" />
+      <None Remove="TestResults\**" />
+      <DotNetCliToolReference Include="dotnet-reportgenerator-cli" Version="4.0.4" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="ImportCodeCoverage" BeforeTargets="AddNugetPackages" Condition="$(IsTestAssembly) AND !$(DisableCodeCoverage)">
+    <ItemGroup>
+      <PackageReference Include="coverlet.msbuild" Version="2.5.1">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+  </Target>
+
+  <Target Name="CovertReportResults" AfterTargets="GenerateCoverageResult" Condition="$(IsTestAssembly) AND $(CollectCoverage)">
+    <!-- Merges the reports into one -->
+    <Exec Command="dotnet reportgenerator -reports:../../TestResults/Coverage/*.xml -targetDir:../../TestResults/Reports -reportTypes:Cobertura" WorkingDirectory="$(ProjectDir)" />
+    <!-- Gives the summary in an Azure Pipelines look & feel -->
+    <Exec Command="dotnet reportgenerator -reports:../../TestResults/Reports/*.xml -targetDir:../../TestResults/Reports -reportTypes:HtmlInline_AzurePipelines" WorkingDirectory="$(ProjectDir)" />
+  </Target>
+</Project>

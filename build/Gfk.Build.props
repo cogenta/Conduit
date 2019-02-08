@@ -1,0 +1,29 @@
+﻿<Project>
+  <!-- Paths to all of the files -->
+  <PropertyGroup>
+    <_PropertiesPropsFile>$(MSBuildThisFileDirectory)Properties\Properties.props</_PropertiesPropsFile>
+    <_SourcesPackagePropsFile>$(MSBuildThisFileDirectory)SourcesPackage\SourcesPackage.props</_SourcesPackagePropsFile>
+    <_AnalyzersPropsFile>$(MSBuildThisFileDirectory)Analyzers\Analyzers.props</_AnalyzersPropsFile>
+    <_CodeCoveragePropsFile>$(MSBuildThisFileDirectory)CodeCoverage\CodeCoverage.props</_CodeCoveragePropsFile>
+    <_PackagingPropsFile>$(MSBuildThisFileDirectory)Packaging\Packaging.props</_PackagingPropsFile>
+    <_SourceLinkPropsFile>$(MSBuildThisFileDirectory)SourceLink\SourceLink.props</_SourceLinkPropsFile>
+    <_StrongNamingPropsFile>$(MSBuildThisFileDirectory)StrongNaming\StrongNaming.props</_StrongNamingPropsFile>
+    <_StyleCopPropsFile>$(MSBuildThisFileDirectory)\StyleCop\StyleCop.props</_StyleCopPropsFile>
+    <_VersioningPropsFile>$(MSBuildThisFileDirectory)Versioning\Versioning.props</_VersioningPropsFile>
+    <_ILLinkerPropsFile>$(MSBuildThisFileDirectory)ILLinker\ILLinker.props</_ILLinkerPropsFile>
+    <_TestingPropsFile>$(MSBuildThisFileDirectory)Testing\Testing.props</_TestingPropsFile>
+  </PropertyGroup>
+  
+  <!-- Import the files -->
+  <Import Project="$(_PropertiesPropsFile)" Condition="Exists($(_PropertiesPropsFile))" />
+  <Import Project="$(_SourcesPackagePropsFile)" Condition="Exists($(_SourcesPackagePropsFile))" />
+  <Import Project="$(_AnalyzersPropsFile)" Condition="Exists($(_AnalyzersPropsFile))" />
+  <Import Project="$(_CodeCoveragePropsFile)" Condition="Exists($(_CodeCoveragePropsFile))" />
+  <Import Project="$(_PackagingPropsFile)" Condition="Exists($(_PackagingPropsFile))" />
+  <Import Project="$(_SourceLinkPropsFile)" Condition="Exists($(_SourceLinkPropsFile))" />
+  <Import Project="$(_StrongNamingPropsFile)" Condition="Exists($(_StrongNamingPropsFile))" />
+  <Import Project="$(_StyleCopPropsFile)" Condition="Exists($(_StyleCopPropsFile))" />
+  <Import Project="$(_VersioningPropsFile)" Condition="Exists($(_VersioningPropsFile))" />
+  <Import Project="$(_ILLinkerPropsFile)" Condition="Exists($(_ILLinkerPropsFile))" />
+  <Import Project="$(_TestingPropsFile)" Condition="Exists($(_TestingPropsFile))" />
+</Project>

@@ -1,0 +1,6 @@
+﻿<Project>
+  <PropertyGroup Condition="$(CodeAnalysisRuleSet) == '' AND ($(DisableStyleCop) != 'true' AND $(SuppressCodeAnalysis) != 'true') AND !$(IsTestAssembly) AND !$(IsBenchmarkAssembly)">
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)Gfk_General.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+  </PropertyGroup>
+</Project>

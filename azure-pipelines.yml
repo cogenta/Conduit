@@ -1,0 +1,77 @@
+trigger:
+    branches:
+        include:
+        - refs/heads/*
+        exclude:
+        - refs/tags/*
+
+variables:
+  hasCodeCoverage: false
+  shouldPushPrerelease: true
+  buildConfiguration: 'Release'
+  buildProjects: '**/*.csproj'
+  testProjects: '**/*.Test*.csproj'
+  system_accesstoken: $(System.AccessToken)
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
+  isPrerelease: $[and(ne(variables['isMaster'],'true'), not(startswith(variables['Build.SourceBranch'], 'refs/pull')))]
+  branchIsOfInterest: $[or(eq(variables['isMaster'],'true'), and(eq(variables['shouldPushPrerelease'],'true'), eq(variables['isPrerelease'],'true')))]
+
+steps:
+- checkout: self
+  clean: true
+  persistCredentials: true
+
+- task: DotNetCoreCLI@2
+  displayName: Restore Packages
+  inputs:
+    command: restore
+    projects: $(buildProjects)
+    noCache: true
+    verbosityRestore: Normal
+
+- task: DotNetCoreCLI@2
+  displayName: Build Projects
+  inputs:
+    projects: $(buildProjects)
+    arguments: '-c $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: Test Projects
+  inputs:
+    command: test
+    projects: $(testProjects)
+    publishTestResults: true
+    arguments: '--no-build -c $(buildConfiguration) /p:Exclude="[xunit*]*"'
+
+- powershell: |
+   if((Test-Path -Path "$(Build.SourcesDirectory)/TestResults/Reports") -and ((gci -Path "$(Build.SourcesDirectory)/TestResults/Reports" -Filter "*.xml" | measure).Count -gt 0))
+   {
+     Write-Host "##vso[task.setvariable variable=hasCodeCoverage;]true"
+   }
+  displayName: 'Count code coverage results'
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish Code Coverage Results'
+  condition: and(succeeded(), eq(variables['hasCodeCoverage'],'true'))
+  inputs:
+    codeCoverageTool: cobertura
+    summaryFileLocation: '$(Build.SourcesDirectory)/TestResults/Reports/Cobertura.xml'
+    reportDirectory: '$(Build.SourcesDirectory)/TestResults/Reports'
+    additionalCodeCoverageFiles: '$(Build.SourcesDirectory)/TestResults/*.xml'
+    failIfCoverageEmpty: true
+
+- task: CopyFiles@2
+  displayName: Copy Packages To Artifacts
+  inputs:
+    SourceFolder: 'artifacts/nupkgs'
+    Contents: '*.nupkg'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/nupkgs/'
+    CleanTargetFolder: true
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)/nupkgs'
+    artifactName: 'nupkgs'
+    publishLocation: Container

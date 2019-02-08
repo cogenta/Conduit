@@ -1,0 +1,5 @@
+<Project>
+  <Import Project="..\Directory.Build.targets" Condition="Exists('..\Directory.Build.targets')" />
+  <Import Project="build\Gfk.Build.targets" Condition="Exists('build\Gfk.Build.targets')" />
+  <Import Project=".\Local.Build.targets" Condition="Exists('.\Local.Build.targets')" />
+</Project>

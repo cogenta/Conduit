@@ -1,0 +1,89 @@
+﻿<Project>
+  <!-- 
+        Extension points 
+            - EvaluateDynamicProperties     : Used to evaluate properties after all imports have been completed
+            - EvaluateDynamicPropertiesCore : Used to evaluate core properties after all imports have been completed, eg: target framework resolution
+            - AddNugetPackages              : Used to add nuget packages in the correct place. Requires: EvaluateDynamicProperties
+  -->
+  <Target Name="EvaluateDynamicProperties" DependsOnTargets="EvaluateDynamicPropertiesCore" BeforeTargets="CollectPackageReferences" />
+  <Target Name="EvaluateDynamicPropertiesCore" />
+  <Target Name="AddNugetPackages" DependsOnTargets="EvaluateDynamicProperties" BeforeTargets="CollectPackageReferences" />
+
+  <!-- Paths to all of the files -->
+  <PropertyGroup>
+    <_PropertiesTargetsFile>$(MSBuildThisFileDirectory)Properties\Properties.targets</_PropertiesTargetsFile>
+    <_SourcesPackageTargetsFile>$(MSBuildThisFileDirectory)SourcesPackage\SourcesPackage.targets</_SourcesPackageTargetsFile>
+    <_AnalyzersTargetsFile>$(MSBuildThisFileDirectory)Analyzers\Analyzers.targets</_AnalyzersTargetsFile>
+    <_CodeCoverageTargetsFile>$(MSBuildThisFileDirectory)CodeCoverage\CodeCoverage.targets</_CodeCoverageTargetsFile>
+    <_PackagingTargetsFile>$(MSBuildThisFileDirectory)Packaging\Packaging.targets</_PackagingTargetsFile>
+    <_SourceLinkTargetsFile>$(MSBuildThisFileDirectory)SourceLink\SourceLink.targets</_SourceLinkTargetsFile>
+    <_StrongNamingTargetsFile>$(MSBuildThisFileDirectory)StrongNaming\StrongNaming.targets</_StrongNamingTargetsFile>
+    <_VersioningTargetsFile>$(MSBuildThisFileDirectory)Versioning\Versioning.targets</_VersioningTargetsFile>
+    <_ILLinkerTargetsFile>$(MSBuildThisFileDirectory)ILLinker\ILLinker.targets</_ILLinkerTargetsFile>
+    <_TestingTargetsFile>$(MSBuildThisFileDirectory)Testing\Testing.targets</_TestingTargetsFile>
+  </PropertyGroup>
+
+  <!-- Import the target files -->
+  <Import Project="$(_PropertiesTargetsFile)" Condition="Exists($(_PropertiesTargetsFile))" />
+  <Import Project="$(_SourcesPackageTargetsFile)" Condition="Exists($(_SourcesPackageTargetsFile))" />
+  <Import Project="$(_AnalyzersTargetsFile)" Condition="Exists($(_AnalyzersTargetsFile))" />
+  <Import Project="$(_CodeCoverageTargetsFile)" Condition="Exists($(_CodeCoverageTargetsFile))" />
+  <Import Project="$(_PackagingTargetsFile)" Condition="Exists($(_PackagingTargetsFile))" />
+  <Import Project="$(_SourceLinkTargetsFile)" Condition="Exists($(_SourceLinkTargetsFile))" />
+  <Import Project="$(_StrongNamingTargetsFile)" Condition="Exists($(_StrongNamingTargetsFile))" />
+  <Import Project="$(_VersioningTargetsFile)" Condition="Exists($(_VersioningTargetsFile))" />
+  <Import Project="$(_ILLinkerTargetsFile)" Condition="Exists($(_ILLinkerTargetsFile))" />
+  <Import Project="$(_TestingTargetsFile)" Condition="Exists($(_TestingTargetsFile))" />
+
+  <!-- Debug -->
+  <Target Name="BuildFeatures_Debug" BeforeTargets="EvaluateDynamicProperties_Debug" Condition="$(DebugBuildFeatures) == 'true'">
+    <Message Importance="high" Text="Target: BuildFeatures_Debug" />
+    <Message Importance="high" Text="---------------------------"/>
+
+    <!-- Files Not Found -->
+    <Error ContinueOnError="true" Text="File Not Found: _PropertiesTargetsFile ($(_PropertiesTargetsFile))" Condition="!Exists($(_PropertiesTargetsFile))" />
+    <Error ContinueOnError="true" Text="File Not Found: _PropertiesPropsFile ($(_PropertiesPropsFile))" Condition="!Exists($(_PropertiesPropsFile))" />
+    <Error ContinueOnError="true" Text="File Not Found: _SourcesPackageTargetsFile ($(_SourcesPackageTargetsFile))" Condition="!Exists($(_SourcesPackageTargetsFile))" />
+    <Error ContinueOnError="true" Text="File Not Found: _SourcesPackagePropsFile ($(_SourcesPackagePropsFile))" Condition="!Exists($(_SourcesPackagePropsFile))" />
+    <Error ContinueOnError="true" Text="File Not Found: _AnalyzersTargetsFile ($(_AnalyzersTargetsFile))" Condition="!Exists($(_AnalyzersTargetsFile))" />
+    <Error ContinueOnError="true" Text="File Not Found: _AnalyzersPropsFile ($(_AnalyzersPropsFile))" Condition="!Exists($(_AnalyzersPropsFile))" />
+    <Error ContinueOnError="true" Text="File Not Found: _CodeCoverageTargetsFile ($(_CodeCoverageTargetsFile))" Condition="!Exists($(_CodeCoverageTargetsFile))" />
+    <Error ContinueOnError="true" Text="File Not Found: _CodeCoveragePropsFile ($(_CodeCoveragePropsFile))" Condition="!Exists($(_CodeCoveragePropsFile))" />
+    <Error ContinueOnError="true" Text="File Not Found: _PackagingTargetsFile ($(_PackagingTargetsFile))" Condition="!Exists($(_PackagingTargetsFile))" />
+    <Error ContinueOnError="true" Text="File Not Found: _PackagingPropsFile ($(_PackagingPropsFile))" Condition="!Exists($(_PackagingPropsFile))" />
+    <Error ContinueOnError="true" Text="File Not Found: _SourceLinkTargetsFile ($(_SourceLinkTargetsFile))" Condition="!Exists($(_SourceLinkTargetsFile))" />
+    <Error ContinueOnError="true" Text="File Not Found: _SourceLinkPropsFile ($(_SourceLinkPropsFile))" Condition="!Exists($(_SourceLinkPropsFile))" />
+    <Error ContinueOnError="true" Text="File Not Found: _StrongNamingTargetsFile ($(_StrongNamingTargetsFile))" Condition="!Exists($(_StrongNamingTargetsFile))" />
+    <Error ContinueOnError="true" Text="File Not Found: _StrongNamingPropsFile ($(_StrongNamingPropsFile))" Condition="!Exists($(_StrongNamingPropsFile))" />
+    <Error ContinueOnError="true" Text="File Not Found: _StyleCopPropsFile ($(_StyleCopPropsFile))" Condition="!Exists($(_StyleCopPropsFile))" />
+    <Error ContinueOnError="true" Text="File Not Found: _VersioningTargetsFile ($(_VersioningTargetsFile))" Condition="!Exists($(_VersioningTargetsFile))" />
+    <Error ContinueOnError="true" Text="File Not Found: _VersioningPropsFile ($(_VersioningPropsFile))" Condition="!Exists($(_VersioningPropsFile))" />
+    <Error ContinueOnError="true" Text="File Not Found: _ILLinkerTargetsFile ($(_ILLinkerTargetsFile))" Condition="!Exists($(_ILLinkerTargetsFile))" />
+    <Error ContinueOnError="true" Text="File Not Found: _ILLinkerPropsFile ($(_ILLinkerPropsFile))" Condition="!Exists($(_ILLinkerPropsFile))" />
+    <Error ContinueOnError="true" Text="File Not Found: _TestingTargetsFile ($(_TestingTargetsFile))" Condition="!Exists($(_TestingTargetsFile))" />
+    <Error ContinueOnError="true" Text="File Not Found: _TestingPropsFile ($(_TestingPropsFile))" Condition="!Exists($(_TestingPropsFile))" />
+
+    <!-- Files Found -->
+    <Message Importance="high" Text="File Found: _PropertiesTargetsFile ($(_PropertiesTargetsFile))" Condition="Exists($(_PropertiesTargetsFile))" />
+    <Message Importance="high" Text="File Found: _PropertiesPropsFile ($(_PropertiesPropsFile))" Condition="Exists($(_PropertiesPropsFile))" />
+    <Message Importance="high" Text="File Found: _SourcesPackageTargetsFile ($(_SourcesPackageTargetsFile))" Condition="Exists($(_SourcesPackageTargetsFile))" />
+    <Message Importance="high" Text="File Found: _SourcesPackagePropsFile ($(_SourcesPackagePropsFile))" Condition="Exists($(_SourcesPackagePropsFile))" />
+    <Message Importance="high" Text="File Found: _AnalyzersTargetsFile ($(_AnalyzersTargetsFile))" Condition="Exists($(_AnalyzersTargetsFile))" />
+    <Message Importance="high" Text="File Found: _AnalyzersPropsFile ($(_AnalyzersPropsFile))" Condition="Exists($(_AnalyzersPropsFile))" />
+    <Message Importance="high" Text="File Found: _CodeCoverageTargetsFile ($(_CodeCoverageTargetsFile))" Condition="Exists($(_CodeCoverageTargetsFile))" />
+    <Message Importance="high" Text="File Found: _CodeCoveragePropsFile ($(_CodeCoveragePropsFile))" Condition="Exists($(_CodeCoveragePropsFile))" />
+    <Message Importance="high" Text="File Found: _PackagingTargetsFile ($(_PackagingTargetsFile))" Condition="Exists($(_PackagingTargetsFile))" />
+    <Message Importance="high" Text="File Found: _PackagingPropsFile ($(_PackagingPropsFile))" Condition="Exists($(_PackagingPropsFile))" />
+    <Message Importance="high" Text="File Found: _SourceLinkTargetsFile ($(_SourceLinkTargetsFile))" Condition="Exists($(_SourceLinkTargetsFile))" />
+    <Message Importance="high" Text="File Found: _SourceLinkPropsFile ($(_SourceLinkPropsFile))" Condition="Exists($(_SourceLinkPropsFile))" />
+    <Message Importance="high" Text="File Found: _StrongNamingTargetsFile ($(_StrongNamingTargetsFile))" Condition="Exists($(_StrongNamingTargetsFile))" />
+    <Message Importance="high" Text="File Found: _StrongNamingPropsFile ($(_StrongNamingPropsFile))" Condition="Exists($(_StrongNamingPropsFile))" />
+    <Message Importance="high" Text="File Found: _StyleCopPropsFile ($(_StyleCopPropsFile))" Condition="Exists($(_StyleCopPropsFile))" />
+    <Message Importance="high" Text="File Found: _VersioningTargetsFile ($(_VersioningTargetsFile))" Condition="Exists($(_VersioningTargetsFile))" />
+    <Message Importance="high" Text="File Found: _VersioningPropsFile ($(_VersioningPropsFile))" Condition="Exists($(_VersioningPropsFile))" />
+    <Message Importance="high" Text="File Found: _ILLinkerTargetsFile ($(_ILLinkerTargetsFile))" Condition="Exists($(_ILLinkerTargetsFile))" />
+    <Message Importance="high" Text="File Found: _ILLinkerPropsFile ($(_ILLinkerPropsFile))" Condition="Exists($(_ILLinkerPropsFile))" />
+    <Message Importance="high" Text="File Found: _TestingTargetsFile ($(_TestingTargetsFile))" Condition="Exists($(_TestingTargetsFile))" />
+    <Message Importance="high" Text="File Found: _TestingPropsFile ($(_TestingPropsFile))" Condition="Exists($(_TestingPropsFile))" />
+  </Target>
+</Project>

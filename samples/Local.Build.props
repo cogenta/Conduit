@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <EnableSourceLink>false</EnableSourceLink>
+    <DisableAnalyzers>true</DisableAnalyzers>
+  </PropertyGroup>
+</Project>

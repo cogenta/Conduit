@@ -1,0 +1,49 @@
+<Project>
+  <Target Name="BuildFeatureSourceLinkEvaluateProperties" BeforeTargets="EvaluateDynamicProperties">
+    <PropertyGroup Condition="$(EnableSourceLink) == ''">
+      <EnableSourceLink Condition="$(EnableSourceLink) == ''">true</EnableSourceLink>
+    </PropertyGroup>
+
+    <PropertyGroup>
+      <RepositoryUrl Condition="$(RepositoryUrl) == ''">$(PackageProjectUrl)</RepositoryUrl>
+      <IsGithubProject Condition="$(RepositoryUrl) != '' AND $(RepositoryUrl.Contains('github.com'))">true</IsGithubProject>
+      <IsADOProject Condition="$(RepositoryUrl) != '' AND $(RepositoryUrl.Contains('.visualstudio.com'))">true</IsADOProject>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="$(EnableSourceLink)">
+      <DebugType Condition="$(DebugType) == ''">embedded</DebugType>
+      <DebugSymbols>true</DebugSymbols>
+      <DeterministicSourcePaths>false</DeterministicSourcePaths>
+      <EmbedUntrackedSources>true</EmbedUntrackedSources>
+      <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    </PropertyGroup>
+  </Target>
+
+  <Target Name="BuildFeatureSourceLinkImports" BeforeTargets="AddNugetPackages" Condition="$(EnableSourceLink) AND !$(IsTestAssembly) AND !$(IsBenchmarkAssembly)">
+    <ItemGroup Condition="$(IsGithubProject) == 'true'">
+      <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="All"/>
+    </ItemGroup>
+    <ItemGroup Condition="$(IsADOProject) == 'true'">
+      <PackageReference Include="Microsoft.SourceLink.Vsts.Git" Version="1.0.0-beta-63127-02" PrivateAssets="All"/>
+    </ItemGroup>
+    <ItemGroup Condition="$(IsTfsProject) == 'true'">
+      <PackageReference Include="Microsoft.SourceLink.Tfs.Git" Version="1.0.0-beta-63127-02" PrivateAssets="All"/>
+    </ItemGroup>
+    <ItemGroup Condition="$(IsBitBucketProject) == 'true'">
+      <PackageReference Include="Microsoft.SourceLink.Bitbucket.Git" Version="1.0.0-beta-63127-02" PrivateAssets="All"/>
+    </ItemGroup>
+    <ItemGroup Condition="$(IsGitLabProject) == 'true'">
+      <PackageReference Include="Microsoft.SourceLink.GitLab" Version="1.0.0-beta-63127-02" PrivateAssets="All"/>
+    </ItemGroup>
+  </Target>
+
+  <Target Name="BuildFeatureSourceLinkPropertyVerification" BeforeTargets="CoreCompile" Condition="$(EnableSourceLink) == 'true' AND !$(IsTestAssembly) AND !$(IsBenchmarkAssembly)">
+    <Error ContinueOnError="true" Code="BF013" Text="The 'RepositoryType' tag has not been set. Known values are: tfs, git" Condition="$(RepositoryType) == ''" />
+    <Error ContinueOnError="true" Code="BF014" Text="The 'RepositoryRoot' tag has not been set." Condition="$(RepositoryRoot) == ''" />
+    <Error ContinueOnError="true" Code="BF015" Text="The 'RepositoryUrl' tag has not been set." Condition="$(RepositoryUrl) == '' AND $(EnableSourceLink) != 'true'" />
+    <Error ContinueOnError="true" Code="BF016" Text="The 'PublishRepositoryUrl' tag has not been set or is set not to publish." Condition="$(PublishRepositoryUrl) != 'true'" />
+    <Warning ContinueOnError="true" Code="BF017" Text="Unrecognised repository type: '$(RepositoryType)'" Condition="$(RepositoryType) != 'git' AND $(RepositoryType) != 'tfs'" />
+    <Warning ContinueOnError="true" Code="BF018" Text="The TFS specific information cannot be found in the tag 'SourceLinkTfsGitHost'." Condition="$(IsTfsProject) == 'true' AND $(SourceLinkTfsGitHost) == ''" />
+    <Warning ContinueOnError="true" Code="BF019" Text="The repository url is not a secure link. Please use a link starting with 'https://'" Condition="!$(RepositoryUrl.StartsWith('https://')) AND $(EnableSourceLink) != 'true'" />
+  </Target>
+</Project>

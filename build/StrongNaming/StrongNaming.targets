@@ -1,0 +1,7 @@
+<Project>
+  <Target Name="BuildStrongNamingPropertyEvaulation" BeforeTargets="EvaluateDynamicProperties">
+    <PropertyGroup Condition="$(IsBenchmarkAssembly)">
+      <SignAssembly>false</SignAssembly>
+    </PropertyGroup>
+  </Target>
+</Project>
