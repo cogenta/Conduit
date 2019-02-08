@@ -3,7 +3,7 @@
     /// <summary>
     /// Manages the creation of pipelines for multiple types
     /// </summary>
-    /// <typeparam name="T">The that is passed through the pipeline</typeparam>
+    /// <typeparam name="T">The type that is passed through the pipeline</typeparam>
     public interface IAsyncPipelineManager<T>
     {
         /// <summary>
