@@ -1,5 +1,6 @@
 <Project>
   <PropertyGroup>
     <NoWarn>$(NoWarn);CA1812</NoWarn>
+    <PackageIconUrl>https://www.gfk.com/fileadmin/fe/gfktheme/images/system/logo_r.jpg</PackageIconUrl>
   </PropertyGroup>
 </Project>
