@@ -12,7 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>
         /// Adds the default pipeline for a given type
         /// </summary>
-        /// <typeparam name="T">The that is passed through the pipeline</typeparam>
+        /// <typeparam name="T">The type that is passed through the pipeline</typeparam>
         /// <param name="services">The service collection to bind to</param>
         /// <param name="builderAction">The builder of the pipeline</param>
         /// <returns>The modified service collection</returns>
