@@ -86,7 +86,7 @@ Once this is registered, you can access the pipeline in your code by injecting `
 
 _**Note**: You can have different default pipelines for your synchronous and asynchronous code paths._
 
-### Conditional execution of pipline phases
+### Conditional execution of pipeline phases
 
 If you a part of your pipeline that you only occassionally want to run, you can supply a condition to each of the builder overloads which will only invoke the pipeline when the condition is met. For example:
 
