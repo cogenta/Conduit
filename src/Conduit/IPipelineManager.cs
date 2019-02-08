@@ -10,7 +10,7 @@
         /// Returns the pipeline with the specified name
         /// </summary>
         /// <param name="name">The name of the pipeline</param>
-        /// <returns>The asynchronous pipeline</returns>
+        /// <returns>The pipeline</returns>
         IPipeline<T> Get(string name);
     }
 }
