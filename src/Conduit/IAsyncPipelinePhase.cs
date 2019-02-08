@@ -6,7 +6,7 @@ namespace Conduit
     /// <summary>
     /// Defines a phase in the pipeline in which processing can occur asynchronously
     /// </summary>
-    /// <typeparam name="T">The that is passed through the pipeline</typeparam>
+    /// <typeparam name="T">The type that is passed through the pipeline</typeparam>
     public interface IAsyncPipelinePhase<T>
     {
         /// <summary>
