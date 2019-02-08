@@ -22,7 +22,7 @@ namespace Conduit
                 name = Constants.DefaultPipeline;
             }
 
-            var options = _options.Get(name) ?? throw new Exception("Cant find it");
+            var options = _options.Get(name) ?? throw new ArgumentException($"Can't find named pipeline ${name}", name);
 
             return new Pipeline<T>(_serviceScopeFactory, options.Phases);
         }
