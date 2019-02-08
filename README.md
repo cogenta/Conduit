@@ -84,7 +84,7 @@ As part of the default pipeline builder, you have access to all of the same stuf
 
 Once this is registered, you can access the pipeline in your code by injecting `IPipeline<T>`/`IAsyncPipeline<T>`.
 
-_**Note**: You can have different default pipelines for your synchronos and asynchronos code paths._
+_**Note**: You can have different default pipelines for your synchronous and asynchronous code paths._
 
 ### Conditional execution of pipline phases
 
